@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import React from "react"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface UserSignupData {
   name: string;
@@ -33,7 +34,16 @@ const validation = Yup.object({
   .required("Required"),
 });
 
-const Signup = () => {
+const Signup:React.FC = () => {
+
+
+  const [name,setName] = useState('');
+  const [username,setUsername] = useState('');
+  const [email,setEmail] = useState('');
+  const [phonenumber,setPhonenumber] = useState('');
+  const [password,setPassword] = useState('');
+  const [confirmpassword,setConfirmpassword] = useState('');
+  // const [name,setName] = useState('');
 
   const router = useRouter();
 
