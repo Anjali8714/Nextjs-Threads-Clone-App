@@ -1,26 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import Formpage from "@/Components/Formpage/form";
-import BG from '../../../public/Images/bg.webp'
+import BG from "../../../public/Images/bg.webp";
 
-const Login = () => {
+const Login: React.FC = () => {
   return (
-
-   
-    
-    <div className="relative w-full h-screen "> 
+    <div className="relative w-full h-screen ">
       <Image
-        src={BG} 
+        src={BG}
         alt="Background Image"
         className="absolute inset-0 z-[-1] w-full"
         objectFit="cover"
-       
-      /> 
-       <Formpage/>   
-     </div> 
-    
-    
-    
-  )};
+      />
+      <Formpage />
+    </div>
+  );
+};
 
 export default Login;

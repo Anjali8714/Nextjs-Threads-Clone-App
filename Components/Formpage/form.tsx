@@ -5,43 +5,53 @@ import Link from "next/link";
 import React from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/APIs/axiosInstance";
 
-interface UserLoginData {
-  email: string;
+export interface UserLoginData {
+  username: string;
   password: string;
 }
 
 const Logindatas: UserLoginData = {
-  email: "",
+  username: "",
   password: "",
 };
 
 const validation = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string().required("Username is Required"),
   password: Yup.string()
     .min(8, "Password minimum 8 digits")
     .required("Required"),
 });
 
 const Formpage = () => {
+  const loginUSer = async (userData: UserLoginData) => {
+    console.log(userData);
+    try {
+      const res = await axiosInstance.post("/users/login", userData);
+      return res.data;
+    } catch (error: any) {
+      console.error("Login error :", error);
+      throw error;
+    }
+  };
 
   const router = useRouter();
 
+  const onSubmit = async (values: UserLoginData) => {
+    const user = await loginUSer(values);
 
-  const onSubmit = (values: UserLoginData) => {
-    console.log("Login data", values);
-
-    setTimeout(()=> {
-      router.push("/Navbar")
-    },500)
+    if (user && user._id) {
+      router.push("/Main");
+    }
   };
-
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6">
-      <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-semibold text-center text-white mb-6">Login with your Instagram account</h2>
+      <div className="w-full max-w-md  p-8 rounded-lg shadow-lg mt-28">
+        <h2 className="text-l font-semibold text-center text-white mb-1">
+          Login with your Instagram account
+        </h2>
 
         <Formik
           initialValues={Logindatas}
@@ -52,15 +62,15 @@ const Formpage = () => {
             <Form>
               <div>
                 <Field
-                  type="email"
-                  name="email"
-                  placeholder="E-mail"
-                  className="mt-2 w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
                 />
                 <ErrorMessage
-                  name="email"
+                  name="username"
                   component="div"
-                  className="text-red-500 mt-1"
+                  className="text-red-500"
                 />
               </div>
 
@@ -69,7 +79,7 @@ const Formpage = () => {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  className="mt-2 w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-2 w-full h-16 px-4 py-2 bg-zinc-800 text-white border  rounded-lg"
                 />
                 <ErrorMessage
                   name="password"
@@ -79,9 +89,9 @@ const Formpage = () => {
               </div>
               <button
                 type="submit"
-                className="bg-blue-600 text-white rounded-lg px-4 py-2 mt-4 w-full font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="bg-white text-slate-400 rounded-lg px-4 py-2 mt-4 w-full h-16"
               >
-                LOGIN
+                Log in
               </button>
 
               <div className="flex items-center justify-center mt-4">
@@ -90,12 +100,11 @@ const Formpage = () => {
                 <div className="w-full h-px bg-gray-400"></div>
               </div>
 
-              <Link href="/Signup" />
-              <button
-              
-              className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white">
-                Sign Up
-              </button>
+              <Link href="/Signup">
+                <button className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white">
+                  Sign Up
+                </button>
+              </Link>
             </Form>
           )}
         </Formik>
