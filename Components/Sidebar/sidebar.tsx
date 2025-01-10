@@ -21,7 +21,7 @@ const Sidebar = () => {
 
   return (
     <div>
-      <div className="ml-4 h-screen w-20">
+      <div className="ml-4 h-full w-20">
         <Link href="/Main">
           <Image
             src="/Images/thread-logo.svg"
