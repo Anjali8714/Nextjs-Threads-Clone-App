@@ -1,11 +1,13 @@
 "use client";
 
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Form,} from "formik";
 import Link from "next/link";
 import React from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/APIs/axiosInstance";
+import TextInputBox from "@/ReusableCode/textInputBox";
+import ButtonComponent from "@/ReusableCode/buttonComponent";
 
 export interface UserLoginData {
   username: string;
@@ -60,39 +62,11 @@ const Formpage = () => {
         >
           {() => (
             <Form>
-              <div>
-                <Field
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  className="mt-2 w-full h-16 px-4 py-2 bg-zinc-800 text-white border  rounded-lg"
-                />
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
 
-              <div>
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="mt-2 w-full h-16 px-4 py-2 bg-zinc-800 text-white border  rounded-lg"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 mt-1"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-white text-slate-400 rounded-lg px-4 py-2 mt-4 w-full h-16"
-              >
-                Log in
-              </button>
+              <TextInputBox type="text" name="username" placeholder="Username"/>
+              <TextInputBox type="password" name="password" placeholder="Password"/>
+
+              <ButtonComponent type="submit" label="Log In" className="bg-white text-slate-400 mt-4"/>
 
               <div className="flex items-center justify-center mt-4">
                 <div className="w-full h-px bg-gray-400"></div>
@@ -101,9 +75,7 @@ const Formpage = () => {
               </div>
 
               <Link href="/Signup">
-                <button className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white">
-                  Sign Up
-                </button>
+                <ButtonComponent label="Sign up" className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white"/>
               </Link>
             </Form>
           )}

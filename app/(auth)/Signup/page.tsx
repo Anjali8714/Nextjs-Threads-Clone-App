@@ -1,10 +1,12 @@
 "use client";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/APIs/axiosInstance";
+import TextInputBox from "@/ReusableCode/textInputBox";
+
 
 interface UserSignupData {
   name: string;
@@ -21,6 +23,7 @@ const Signupdatas: UserSignupData = {
   phonenumber: "",
   password: "",
 };
+
 const validation = Yup.object({
   name: Yup.string().required("Name is Required"),
   username: Yup.string().required("Username is Required"),
@@ -87,9 +90,7 @@ const Signup: React.FC = () => {
   return (
     <div className="flex flex-col p-6 items-center justify-center min-h-screen bg-gray-950">
       <div className="bg-transparent p-6 rounded-lg shadow-lg w-full sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-3/12 mt-5">
-        <h1 className="text-3xl font-semibold text-white text-center mb-4">
-          SignUp
-        </h1>
+        <h1 className="text-lg font-semibold text-white text-center mb-8">Create your account</h1>
 
         <Formik
           initialValues={Signupdatas}
@@ -98,71 +99,12 @@ const Signup: React.FC = () => {
         >
           {({ isSubmitting }) => (
             <Form>
-              <div>
-                <Field
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
-                />
-                <ErrorMessage
-                  name="name"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
-              <div>
-                <Field
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
-                />
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
-              <div>
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="E-mail"
-                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
-              <div>
-                <Field
-                  type="tel"
-                  name="phonenumber"
-                  placeholder="Phone Number"
-                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
-                />
-                <ErrorMessage
-                  name="phonenumber"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
-              <div>
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="bg-[#201d1d] rounded-xl w-full px-3 py-3 mt-2 text-white "
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500"
-                />
-              </div>
+              
+                <TextInputBox type="text" name="name" placeholder="Name"/>
+                <TextInputBox type="text" name="username" placeholder="Username"/>
+                <TextInputBox type="email" name="email" placeholder="E-mail"/>
+                <TextInputBox type="tel" name="phonenumber" placeholder="Phone Number"/>
+                <TextInputBox type="password" name="password" placeholder="Password"/>
 
               <button
                 type="submit"
@@ -175,6 +117,8 @@ const Signup: React.FC = () => {
               {error && (
                 <div className="text-red-500 mt-2 text-center">{error}</div>
               )}
+
+              
             </Form>
           )}
         </Formik>
