@@ -5,9 +5,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import Plusbtn from "../Plusbtn/plusbtn";
 
 const Sidebar = () => {
   const [dropdown, setDropdown] = useState(false);
+  const [openModal , setOpenModal] = useState(false);
 
   const router = useRouter();
 
@@ -22,6 +24,7 @@ const Sidebar = () => {
   return (
     <div>
       <div className="ml-4 h-full w-20">
+
         <Link href="/Main">
           <Image
             src="/Images/thread-logo.svg"
@@ -31,6 +34,7 @@ const Sidebar = () => {
             className="m-2 "
           />
         </Link>
+
         <Link href="/Main">
           <Image
             src="/Images/home.svg"
@@ -40,7 +44,8 @@ const Sidebar = () => {
             className="m-2 mt-28"
           />
         </Link>
-        <Link href="/Main">
+
+        <Link href="/Main/Searchbutton">
           <Image
             src="/Images/search.svg"
             alt="Search Images"
@@ -49,15 +54,9 @@ const Sidebar = () => {
             className="m-2 mt-10"
           />
         </Link>
-        <Link href="/Main">
-          <Image
-            src="/Images/plus.svg"
-            alt="Thread Images"
-            height={25}
-            width={25}
-            className="m-2 mt-10"
-          />
-        </Link>
+
+        <Plusbtn onclick={() => setOpenModal(true)}/>
+
         <Link href="/Main">
           <Image
             src="/Images/heart.svg"
@@ -67,6 +66,7 @@ const Sidebar = () => {
             className="m-2 mt-10"
           />
         </Link>
+
         <Link href="/Main">
           <Image
             src="/Images/user.svg"
@@ -98,4 +98,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar
+export default Sidebar;

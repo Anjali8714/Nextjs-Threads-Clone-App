@@ -3,30 +3,33 @@
 import React, { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/Store/store";
 import { useAppSelector } from "@/Hook/useAppDispatch";
-import { fetchUser } from "@/Slices/userSlice";
+import { fetchUser } from "@/Store/Slices/userSlice";
+import { fetchPosts } from "@/Store/Slices/postSlice";
 import { useDispatch } from "react-redux";
+import TimeAgo from "@/Components/Timeago/timeago";
 
-const page:React.FC = () => {
-
+const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const {users}  = useAppSelector((state: RootState) => state.users);
-  const {posts} = useAppSelector((state : RootState) => state.posts);
+  const { users } = useAppSelector((state: RootState) => state.users);
+  const { posts } = useAppSelector((state: RootState) => state.posts);
 
-  const [user , setUser] = useState<any>(null);
-  const [isModalOpen , setIsModalOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if(userId && users.length > 0){
+    const userId = localStorage.getItem("userId");
+    if (userId && users.length > 0) {
       const foundUser = users.find((user) => user._id === userId);
       setUser(foundUser);
     }
-  },[users]);
+  }, [users]);
 
   useEffect(() => {
     dispatch(fetchUser());
-  },[dispatch])
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  console.log(posts);
 
   return (
     <div className="flex flex-col h-screen">
@@ -34,22 +37,59 @@ const page:React.FC = () => {
         For you
       </div>
 
-      <div className="relative flex-grow  bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] mx-auto w-[50%] lg:w-[100%]">
-        <div className="flex items-center space-x-4">
-          <img 
-        src={user?.profilepic || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
-        className="w-10 h-10 rounded-full object-cover mb-3"
-        alt="User Profile"/>
-        <p className="text-[#777777] ml-11">What's new?</p>
+      <div className="relative h-screen bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] ">
+        <div>
+          <div className="flex items-center ">
+            <img
+              src={
+                user?.profilepic ||
+                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              }
+              className="w-10 h-10 rounded-full object-cover mb-3"
+              alt="User Profile"
+            />
+            <p className="text-[#777777] ml-11">What's new?</p>
+          </div>
+          <button className="absolute top-3 right-4 bg-[#171616] border border-gray-600 text-white font-bold px-4 py-2 rounded-lg">
+            Post
+          </button>
         </div>
-        <button onClick={()=>setIsModalOpen(true)} className="absolute top-3 right-4 bg-[#171616] border border-gray-600 text-white font-bold px-4 py-2 rounded-lg">
-          Post
-        </button>
+
+        {posts.map((post: any) => (
+          <div key={post._id} className="text-white mb-4">
+            <div className="flex items-center">
+              <img
+                src={
+                  post.postById.profilepic ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
+                alt="User Profile"
+                className="w-10 h-10 rounded-full object-cover mr-3"
+              />
+              <div>
+                <div className="flex flex-row items-center">
+                  <p className="font-bold mt-2">
+                    {post.postById.username || "Unknown User"}
+                  </p>
+                  <p className="text-gray-400 ml-2 mt2 text-xs">
+                    <TimeAgo time={post.createdOn} />
+                  </p>
+                </div>
+                <p className="mt-2">{post.text}</p>
+              </div>
+            </div>
+
+            {post.image && (
+              <img
+                src={post.image}
+                alt="post"
+                className="max-h-[400px] mt-2 rounded-lg ml-5 max-w-md"
+              />
+            )}
+          </div>
+        ))}
       </div>
     </div>
-
-   
-   
   );
 };
 

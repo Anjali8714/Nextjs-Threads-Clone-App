@@ -1,6 +1,6 @@
 "use client";
 
-import { Formik, Form,} from "formik";
+import { Formik, Form } from "formik";
 import Link from "next/link";
 import React from "react";
 import * as Yup from "yup";
@@ -62,11 +62,22 @@ const Formpage = () => {
         >
           {() => (
             <Form>
+              <TextInputBox
+                type="text"
+                name="username"
+                placeholder="Username"
+              />
+              <TextInputBox
+                type="password"
+                name="password"
+                placeholder="Password"
+              />
 
-              <TextInputBox type="text" name="username" placeholder="Username"/>
-              <TextInputBox type="password" name="password" placeholder="Password"/>
-
-              <ButtonComponent type="submit" label="Log In" className="bg-white text-slate-400 mt-4"/>
+              <ButtonComponent
+                type="submit"
+                label="Log In"
+                className="bg-white text-slate-400 mt-4"
+              />
 
               <div className="flex items-center justify-center mt-4">
                 <div className="w-full h-px bg-gray-400"></div>
@@ -75,7 +86,10 @@ const Formpage = () => {
               </div>
 
               <Link href="/Signup">
-                <ButtonComponent label="Sign up" className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white"/>
+                <ButtonComponent
+                  label="Sign up"
+                  className="bg-transparet rounded-xl block w-full px-3 mt-2 text-white"
+                />
               </Link>
             </Form>
           )}
