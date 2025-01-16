@@ -7,6 +7,7 @@ import { fetchUser } from "@/Store/Slices/userSlice";
 import { fetchPosts } from "@/Store/Slices/postSlice";
 import { useDispatch } from "react-redux";
 import TimeAgo from "@/Components/Timeago/timeago";
+import LikeButton from "@/Components/Likebutton/likebtn";
 
 const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +30,7 @@ const page: React.FC = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <div className="flex flex-col h-screen">
@@ -55,7 +56,7 @@ const page: React.FC = () => {
           </button>
         </div>
 
-        {posts.map((post: any) => (
+        {posts.map((post: any , index : number) => (
           <div key={post._id} className="text-white mb-4">
             <div className="flex items-center">
               <img
@@ -68,10 +69,10 @@ const page: React.FC = () => {
               />
               <div>
                 <div className="flex flex-row items-center">
-                  <p className="font-bold mt-2">
+                  <p className="font-bold">
                     {post.postById.username || "Unknown User"}
                   </p>
-                  <p className="text-gray-400 ml-2 mt2 text-xs">
+                  <p className="text-gray-400 ml-2 text-xs">
                     <TimeAgo time={post.createdOn} />
                   </p>
                 </div>
@@ -86,6 +87,18 @@ const page: React.FC = () => {
                 className="max-h-[400px] mt-2 rounded-lg ml-5 max-w-md"
               />
             )}
+
+            {index !== posts.length - 1 && (
+              <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-700 my-4"></div>
+            )}
+
+            <div className="mt-3 ml-5 flex space-x-4 items-center">
+            <LikeButton
+            likedValue={post.likes.length}
+            postId={post._id}
+            likedUsers={post.likes}
+            />
+            </div>
           </div>
         ))}
       </div>
