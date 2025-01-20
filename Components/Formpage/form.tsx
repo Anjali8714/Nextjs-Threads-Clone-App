@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/APIs/axiosInstance";
 import TextInputBox from "@/ReusableCode/textInputBox";
 import ButtonComponent from "@/ReusableCode/buttonComponent";
+import { setCookie } from "@/APIs/Cookie/setCookie";
 
 export interface UserLoginData {
   username: string;
@@ -22,13 +23,15 @@ const Logindatas: UserLoginData = {
 const validation = Yup.object({
   username: Yup.string().required("Username is Required"),
   password: Yup.string()
-    .min(8, "Password minimum 8 digits")
+    .min(8, "Password must be at least 8 characters")
     .required("Required"),
 });
 
 const Formpage = () => {
+
+  const router = useRouter();
+
   const loginUSer = async (userData: UserLoginData) => {
-    console.log(userData);
     try {
       const res = await axiosInstance.post("/users/login", userData);
       return res.data;
@@ -38,12 +41,15 @@ const Formpage = () => {
     }
   };
 
-  const router = useRouter();
+ 
 
   const onSubmit = async (values: UserLoginData) => {
     const user = await loginUSer(values);
 
     if (user && user._id) {
+      const userID = user._id;
+      await setCookie(userID);
+      localStorage.setItem('userId',userID)
       router.push("/Main");
     }
   };

@@ -6,21 +6,24 @@ import React, { useState } from "react";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import Plusbtn from "../Plusbtn/plusbtn";
+import {  DeleteCookie } from "@/APIs/Cookie/deleteCookie";
 
 const Sidebar = () => {
   const [dropdown, setDropdown] = useState(false);
-  const [openModal , setOpenModal] = useState(false);
 
   const router = useRouter();
 
+  
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    DeleteCookie();
+    router.push("/Login");
+  };
+  
   const toggleDropdown = () => {
     setDropdown((p) => !p);
   };
-
-  const handleLogout = () => {
-    router.push("/Login");
-  };
-
+  
   return (
     <div>
       <div className="ml-4 h-full w-20">
@@ -55,9 +58,17 @@ const Sidebar = () => {
           />
         </Link>
 
-        <Plusbtn onclick={() => setOpenModal(true)}/>
+        <Link href="">
+          <Image
+            src="/Images/plus.svg"
+            alt="Search Images"
+            height={25}
+            width={25}
+            className="m-2 mt-10"
+          />
+        </Link>
 
-        <Link href="/Main">
+        <Link href="/Main/Activity">
           <Image
             src="/Images/heart.svg"
             alt="Heart Images"
@@ -67,7 +78,7 @@ const Sidebar = () => {
           />
         </Link>
 
-        <Link href="/Main">
+        <Link href="/Main/UserProfile">
           <Image
             src="/Images/user.svg"
             alt="User Images"

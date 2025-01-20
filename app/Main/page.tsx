@@ -8,20 +8,28 @@ import { fetchPosts } from "@/Store/Slices/postSlice";
 import { useDispatch } from "react-redux";
 import TimeAgo from "@/Components/Timeago/timeago";
 import LikeButton from "@/Components/Likebutton/likebtn";
+import { useSelector } from "react-redux";
+import PostModal from "@/Components/PostModal/postModal";
 
 const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { users } = useAppSelector((state: RootState) => state.users);
+  const { users } = useSelector((state: RootState) => state.users);
   const { posts } = useAppSelector((state: RootState) => state.posts);
 
   const [user, setUser] = useState<any>(null);
 
+  const [isPostModal, setIsPostModal] = useState(false);
+
+  const handleOpenModal = () => setIsPostModal(true);
+  const handleCloseModal = () => setIsPostModal(false);
+
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId && users.length > 0) {
-      const foundUser = users.find((user) => user._id === userId);
-      setUser(foundUser);
+      const founduser = users.find((user) => user._id === userId);
+
+      setUser(founduser);
     }
   }, [users]);
 
@@ -30,17 +38,19 @@ const page: React.FC = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  // console.log(posts);
-
   return (
     <div className="flex flex-col h-screen">
       <div className="h-[60px] text-xl flex items-center justify-center text-white">
         For you
       </div>
 
+      <PostModal isopen={isPostModal} onclose={() => setIsPostModal(false)} >
+        <h3>Create new post</h3>
+      </PostModal>
+
       <div className="relative h-screen bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] ">
         <div>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <img
               src={
                 user?.profilepic ||
@@ -50,13 +60,20 @@ const page: React.FC = () => {
               alt="User Profile"
             />
             <p className="text-[#777777] ml-11">What's new?</p>
+
+            <button
+              onClick={handleOpenModal}
+              className="px-4 py-2 ml-80 bg-zinc-700 text-white rounded-md "
+            >
+              Post
+            </button>
           </div>
-          <button className="absolute top-3 right-4 bg-[#171616] border border-gray-600 text-white font-bold px-4 py-2 rounded-lg">
-            Post
-          </button>
+          <PostModal isopen={isPostModal} onclose={handleCloseModal}>
+            <h2 className="text-white">Create a new post</h2>
+          </PostModal>
         </div>
 
-        {posts.map((post: any , index : number) => (
+        {posts.map((post: any, index) => (
           <div key={post._id} className="text-white mb-4">
             <div className="flex items-center">
               <img
@@ -88,17 +105,17 @@ const page: React.FC = () => {
               />
             )}
 
+            <div className="mt-3 ml-5 flex space-x-4 items-center">
+              <LikeButton
+                likedValue={post.likes.length}
+                postId={post._id}
+                likedUsers={post.likes}
+              />
+            </div>
+
             {index !== posts.length - 1 && (
               <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-700 my-4"></div>
             )}
-
-            <div className="mt-3 ml-5 flex space-x-4 items-center">
-            <LikeButton
-            likedValue={post.likes.length}
-            postId={post._id}
-            likedUsers={post.likes}
-            />
-            </div>
           </div>
         ))}
       </div>
