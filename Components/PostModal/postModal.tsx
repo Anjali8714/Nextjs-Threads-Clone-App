@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Postbtn from "../Postbutton/postbtn";
+import { CiCircleMore } from "react-icons/ci";
 
 interface ModalProps {
   isopen: boolean;
@@ -13,21 +13,27 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-neutral-900 rounded-lg shadow-lg max-w-lg mx-4">
-        <div className="flex justify-between items-center px-6 py-4">
+    <div className="fixed inset-0 z-50 bg-black  bg-opacity-50 flex justify-center items-center">
+      <div className="bg-neutral-900 rounded-2xl border border-gray-500 shadow-lg w-full max-w-xl h-72 mx-4">
+        <div className="flex justify-between  items-center px-6 py-4">
+        
+
           <button
             onClick={onclose}
             className="text-white"
           >
             Cancel
           </button>
+          <h2 className="text-white font-bold flex items-center">Create new post</h2>
+          <CiCircleMore size={20}/>
+
         </div>
-        <div className="px-6 py-4">{children}</div>
-        <div className="flex justify-end px-6 py-4 ">
+        
+        <div className="px-6 py-4 border-t border-gray-500">{children}</div>
+        <div className="flex items-end justify-end px-6 py-4">
           <button
             onClick={onclose}
-            className="px-4 py-2 bg-zinc-900 text-gray-700 rounded-md "
+            className="px-2 py-2 mt-32 bg-zinc-900 text-gray-700 rounded-md mb-0"
           >
             Post
           </button>

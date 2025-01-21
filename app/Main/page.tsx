@@ -44,9 +44,7 @@ const page: React.FC = () => {
         For you
       </div>
 
-      <PostModal isopen={isPostModal} onclose={() => setIsPostModal(false)} >
-        <h3>Create new post</h3>
-      </PostModal>
+     
 
       <div className="relative h-screen bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] ">
         <div>
@@ -69,7 +67,7 @@ const page: React.FC = () => {
             </button>
           </div>
           <PostModal isopen={isPostModal} onclose={handleCloseModal}>
-            <h2 className="text-white">Create a new post</h2>
+            <h2 className="text-white"></h2>
           </PostModal>
         </div>
 
