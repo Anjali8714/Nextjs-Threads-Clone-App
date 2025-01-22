@@ -26,7 +26,6 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
           </button>
           <h2 className="text-white font-bold flex items-center">Create new post</h2>
           <CiCircleMore size={20}/>
-
         </div>
         
         <div className="px-6 py-4 border-t border-gray-500">{children}</div>
