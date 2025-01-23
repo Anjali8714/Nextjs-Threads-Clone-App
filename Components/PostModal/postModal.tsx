@@ -1,6 +1,12 @@
 import { useAppDispatch } from "@/Hook/useAppDispatch";
 import React, { ReactNode, useState } from "react";
 import { CiCircleMore } from "react-icons/ci";
+import { GrGallery } from "react-icons/gr";
+import Postbtn from "../Postbutton/postbtn";
+import { toast } from "react-toastify";
+import axiosInstance from "@/APIs/axiosInstance";
+import { fetchPosts } from "@/Store/Slices/postSlice";
+
 
 interface ModalProps {
   isopen: boolean;
@@ -18,16 +24,48 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
     setPostContent(e.target.value);
   };
 
-  const handleImage =(e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if(file){
+    if (file) {
       setPostImage(file);
       const reader = new FileReader();
-      reader.onloadend=()=>{
-        setPreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
+  };
+
+  const handlePostSubmit = async ()=>{
+    const userId = localStorage.getItem('userId');
+     if(postContent.trim() === ''){
+      toast.success('Please write something before posting!');
+      return
+     }
+
+     if(!userId){
+      toast.success('User not found! Please log in.');
+      return
+     }
+
+     const newPostData = new FormData();
+     newPostData.append("usetId",userId);
+     newPostData.append("text",postContent);
+     newPostData.append('image',postImage);
+
+     try{
+      const res = await axiosInstance.post('/posts',newPostData);
+      console.log("this is ", res);
+      onclose();
+      dispatch(fetchPosts())
+     }catch(error){
+      console.error('Error adding new post:', error);
+     }
+
+     setPostContent('');
+     setPostImage(null);
+     setPreview(null);
+    
   }
 
   if (!isopen) {
@@ -36,7 +74,7 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black  bg-opacity-50 flex justify-center items-center">
-      <div className="bg-neutral-900 rounded-2xl border border-gray-500 shadow-lg w-full max-w-xl h-72 mx-4">
+      <div className="bg-neutral-900 rounded-2xl border border-gray-500 shadow-lg w-96 ">
         <div className="flex justify-between  items-center px-6 py-4">
           <button onClick={onclose} className="text-white">
             Cancel
@@ -52,7 +90,7 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
               value={postContent}
               onChange={handleNewPost}
               className="bg-[#181818]"
-            ></textarea>
+            />
 
             {preview && (
               <div className="rounded-md">
@@ -70,16 +108,23 @@ const PostModal: React.FC<ModalProps> = ({ isopen, onclose, children }) => {
                 onChange={handleImage}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
+              <label>
+                <button>
+                  <GrGallery size={20} />
+                </button>
+              </label>
             </div>
           </div>
         </div>
-        <div className="flex items-end justify-end px-6 py-4">
-          <button
+        <div className="flex items-end justify-end px-2 py-2">
+
+          <Postbtn onclick={handlePostSubmit}/>
+          {/* <button
             onClick={onclose}
             className="px-2 py-2 bg-zinc-900 text-gray-700 rounded-md"
           >
             Post
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

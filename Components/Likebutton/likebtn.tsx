@@ -10,13 +10,11 @@ interface LikeBtnProps {
   likedUsers: string[];
 }
 
-const Likebtn = ({ likedValue, postId, likedUsers}: LikeBtnProps) => {
-
+const Likebtn = ({ likedValue, postId, likedUsers }: LikeBtnProps) => {
   const [like, setLike] = useState(likedValue);
   const [isLiked, setIsLiked] = useState(false);
 
-  const userId = localStorage.getItem('userId')
- 
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     if (likedUsers.includes(userId as string)) {
@@ -24,20 +22,17 @@ const Likebtn = ({ likedValue, postId, likedUsers}: LikeBtnProps) => {
     }
   }, [likedUsers, userId]);
 
- 
   const handlelike = async () => {
-
     const updatedLike = isLiked ? like - 1 : like + 1;
     setLike(updatedLike);
     setIsLiked(!isLiked);
 
     try {
-     
       const endpoint = isLiked
         ? `https://social-media-rest-apis-1.onrender.com/api/posts/unlike/${postId}`
         : `https://social-media-rest-apis-1.onrender.com/api/posts/like/${postId}`;
 
-      const response = await axios.post(endpoint, { userId : userId });
+      const response = await axios.post(endpoint, { userId: userId });
 
       console.log("Response:", response);
 
@@ -51,13 +46,10 @@ const Likebtn = ({ likedValue, postId, likedUsers}: LikeBtnProps) => {
     }
   };
 
-
-
-
   return (
     <button onClick={handlelike}>
       <div className="flex">
-        <CiHeart className="text-2xl"  color={isLiked ? '#FF0034' :"white"} />
+        <CiHeart className="text-2xl" color={isLiked ? "#FF0034" : "white"} />
         <div>{like}</div>
       </div>
     </button>

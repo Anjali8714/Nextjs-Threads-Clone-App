@@ -28,7 +28,6 @@ const validation = Yup.object({
 });
 
 const Formpage = () => {
-
   const router = useRouter();
 
   const loginUSer = async (userData: UserLoginData) => {
@@ -41,15 +40,13 @@ const Formpage = () => {
     }
   };
 
- 
-
   const onSubmit = async (values: UserLoginData) => {
     const user = await loginUSer(values);
 
     if (user && user._id) {
       const userID = user._id;
       await setCookie(userID);
-      localStorage.setItem('userId',userID)
+      localStorage.setItem("userId", userID);
       router.push("/Main");
     }
   };

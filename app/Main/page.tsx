@@ -71,7 +71,7 @@ const page: React.FC = () => {
             <div className="flex items-center">
               <img
                 src={
-                  post.postById.profilepic ||
+                  post.postById?.profilepic ||
                   "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 }
                 alt="User Profile"
@@ -80,7 +80,7 @@ const page: React.FC = () => {
               <div>
                 <div className="flex flex-row items-center">
                   <p className="font-bold">
-                    {post.postById.username || "Unknown User"}
+                    {post.postById?.username || "Unknown User"}
                   </p>
                   <p className="text-gray-400 ml-2 text-xs">
                     <TimeAgo time={post.createdOn} />
