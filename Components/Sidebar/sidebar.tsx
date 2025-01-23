@@ -7,9 +7,11 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import Plusbtn from "../Plusbtn/plusbtn";
 import {  DeleteCookie } from "@/APIs/Cookie/deleteCookie";
+import PostModal from "../PostModal/postModal";
 
 const Sidebar = () => {
   const [dropdown, setDropdown] = useState(false);
+  const [isPostModal , setIsPostModal] = useState(false);
 
   const router = useRouter();
 
@@ -58,15 +60,20 @@ const Sidebar = () => {
           />
         </Link>
 
-        <Link href="">
-          <Image
+        <button onClick={()=>setIsPostModal(true)}> <Image
             src="/Images/plus.svg"
             alt="Search Images"
             height={25}
             width={25}
             className="m-2 mt-10"
           />
-        </Link>
+          </button>
+
+          <PostModal isopen={isPostModal} onclose={() => setIsPostModal(false)}>
+            <h2 className="text-white"></h2>
+          </PostModal>
+         
+       
 
         <Link href="/Main/Activity">
           <Image

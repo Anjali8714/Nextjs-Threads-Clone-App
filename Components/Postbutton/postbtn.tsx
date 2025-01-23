@@ -7,7 +7,7 @@ interface PostBtnProps {
 const Postbtn : React.FC<PostBtnProps> = ({onclick}) => {
   return (
     <>
-      <button onClick={onclick} className="absolute top-3 right-4 bg-[#171616] border border-gray-600 text-white font-bold px-4 py-2 rounded-lg">Post</button>
+      <button onClick={onclick} className="h-9 mr-3 w-16 ml-80  bg-[#181818] text-white border border-[#2d2d2d] rounded-lg">Post</button>
     </>
   )
 }

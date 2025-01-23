@@ -10,6 +10,8 @@ import TimeAgo from "@/Components/Timeago/timeago";
 import LikeButton from "@/Components/Likebutton/likebtn";
 import { useSelector } from "react-redux";
 import PostModal from "@/Components/PostModal/postModal";
+import Postbtn from "@/Components/Postbutton/postbtn";
+import { FaRegComment } from "react-icons/fa";
 
 const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,15 +22,13 @@ const page: React.FC = () => {
   const [user, setUser] = useState<any>(null);
 
   const [isPostModal, setIsPostModal] = useState(false);
-
-  const handleOpenModal = () => setIsPostModal(true);
-  const handleCloseModal = () => setIsPostModal(false);
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [currentPostId, setCurrentPostId] = useState<string | null>(null);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId && users.length > 0) {
       const founduser = users.find((user) => user._id === userId);
-
       setUser(founduser);
     }
   }, [users]);
@@ -44,8 +44,6 @@ const page: React.FC = () => {
         For you
       </div>
 
-     
-
       <div className="relative h-screen bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] ">
         <div>
           <div className="flex items-center">
@@ -59,19 +57,16 @@ const page: React.FC = () => {
             />
             <p className="text-[#777777] ml-11">What's new?</p>
 
-            <button
-              onClick={handleOpenModal}
-              className="px-4 py-2 ml-80 bg-zinc-700 text-white rounded-md "
-            >
-              Post
-            </button>
+            <Postbtn onclick={() => setIsPostModal(true)} />
           </div>
-          <PostModal isopen={isPostModal} onclose={handleCloseModal}>
-            <h2 className="text-white"></h2>
-          </PostModal>
         </div>
 
-        {posts.map((post: any, index) => (
+        <PostModal isopen={isPostModal} onclose={() => setIsPostModal(false)}>
+          <h2 className="text-white">New thread</h2>
+        </PostModal>
+
+        <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-500 my-4"></div>
+        {posts.map((post: any) => (
           <div key={post._id} className="text-white mb-4">
             <div className="flex items-center">
               <img
@@ -109,11 +104,19 @@ const page: React.FC = () => {
                 postId={post._id}
                 likedUsers={post.likes}
               />
+
+              <div>
+                <FaRegComment
+                  size={20}
+                  onClick={() => {
+                    setCurrentPostId(post._id);
+                    setIsCommentModalOpen(true);
+                  }}
+                />
+              </div>
             </div>
 
-            {index !== posts.length - 1 && (
-              <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-700 my-4"></div>
-            )}
+            <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-500 my-4"></div>
           </div>
         ))}
       </div>
