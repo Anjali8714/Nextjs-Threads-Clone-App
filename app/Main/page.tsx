@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import PostModal from "@/Components/PostModal/postModal";
 import Postbtn from "@/Components/Postbutton/postbtn";
 import { FaRegComment } from "react-icons/fa";
+import Reply from "@/Components/Reply/reply";
 
 const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +38,6 @@ const page: React.FC = () => {
     dispatch(fetchUser());
     dispatch(fetchPosts());
   }, [dispatch]);
-
   return (
     <div className="flex flex-col h-screen">
       <div className="h-[60px] text-xl flex items-center justify-center text-white">
@@ -65,6 +65,15 @@ const page: React.FC = () => {
           <h2 className="text-white">New thread</h2>
         </PostModal>
 
+        <Reply
+          isopen={isCommentModalOpen}
+          onclose={() => setIsCommentModalOpen(false)}
+          userId={user?._id}
+          username={user?.username}
+          postId={currentPostId || ""}
+          userProfilePic={user?.profilepic}
+        />
+
         <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-500 my-4"></div>
         {posts.map((post: any) => (
           <div key={post._id} className="text-white mb-4">
@@ -83,7 +92,7 @@ const page: React.FC = () => {
                     {post.postById?.username || "Unknown User"}
                   </p>
                   <p className="text-gray-400 ml-2 text-xs">
-                    <TimeAgo time={post.createdOn} />
+                    <TimeAgo time={post.createdtime} />
                   </p>
                 </div>
                 <p className="mt-2">{post.text}</p>
@@ -98,14 +107,14 @@ const page: React.FC = () => {
               />
             )}
 
-            <div className="mt-3 ml-5 flex space-x-4 items-center">
+            <div className="mt-2 ml-5 flex space-x-4 items-center">
               <LikeButton
                 likedValue={post.likes.length}
                 postId={post._id}
                 likedUsers={post.likes}
               />
 
-              <div>
+              <div className="ml-1 flex space-x-1 items-center">
                 <FaRegComment
                   size={20}
                   onClick={() => {
@@ -113,6 +122,7 @@ const page: React.FC = () => {
                     setIsCommentModalOpen(true);
                   }}
                 />
+                {post.replies && <span>{post.replies.length}</span>}
               </div>
             </div>
 

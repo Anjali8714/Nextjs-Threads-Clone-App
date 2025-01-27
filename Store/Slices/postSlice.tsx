@@ -1,8 +1,10 @@
 import axiosInstance from "@/APIs/axiosInstance";
+import { getUserId } from "@/APIs/Cookie/getCookie";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   _id: string;
+  name: string;
   username: string;
   email: string;
   profilepic: string;
@@ -15,7 +17,7 @@ interface Post {
   image?: string;
   likes: string[];
   replies: string[];
-  creation: string;
+  createdtime: string;
   reposts: string[];
 }
 
@@ -63,8 +65,8 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {},
-  extraReducers: (bulder) => {
-    bulder
+  extraReducers: (builder) => {
+    builder
       .addCase(fetchPosts.pending, (state) => {
         state.status = "loading";
         state.error = null;

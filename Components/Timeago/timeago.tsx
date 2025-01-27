@@ -28,7 +28,7 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ time }) => {
 
   const timeAgo = useMemo(() => getTimeAgo(time), [time]);
 
-  return <span>{timeAgo}</span>; // Return a JSX element
+  return <span>{timeAgo}</span>;
 };
 
 export default TimeAgo;
