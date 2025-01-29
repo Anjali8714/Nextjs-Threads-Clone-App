@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/APIs/axiosInstance";
 import TextInputBox from "@/ReusableCode/textInputBox";
+import { toast, ToastContainer } from "react-toastify";
 
 
 interface UserSignupData {
@@ -77,8 +78,10 @@ const Signup: React.FC = () => {
     setLoading(true);
 
     const res = await signup(values);
-
+    toast.success("Registration successfully...")
     setLoading(false);
+
+   
 
     if (res) {
       router.push("/Login");
@@ -91,7 +94,7 @@ const Signup: React.FC = () => {
     <div className="flex flex-col p-6 items-center justify-center min-h-screen bg-gray-950">
       <div className="bg-transparent p-6 rounded-lg shadow-lg w-full sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-3/12 mt-5">
         <h1 className="text-lg font-semibold text-white text-center mb-8">Create your account</h1>
-
+        <ToastContainer position="bottom-center" />
         <Formik
           initialValues={Signupdatas}
           validationSchema={validation}

@@ -48,7 +48,7 @@ const Likebtn = ({ likedValue, postId, likedUsers }: LikeBtnProps) => {
 
   return (
     <button onClick={handlelike}>
-      <div className="flex">
+      <div className="flex mt-2">
         <CiHeart className="text-2xl" color={isLiked ? "#FF0034" : "white"} />
         <div>{like}</div>
       </div>

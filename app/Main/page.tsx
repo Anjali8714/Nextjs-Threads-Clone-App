@@ -13,6 +13,8 @@ import PostModal from "@/Components/PostModal/postModal";
 import Postbtn from "@/Components/Postbutton/postbtn";
 import { FaRegComment } from "react-icons/fa";
 import Reply from "@/Components/Reply/reply";
+import Repostbtn from "@/Components/Repostbutton/repostbtn";
+import Repost from "@/Components/Repost/repost";
 
 const page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,6 +27,8 @@ const page: React.FC = () => {
   const [isPostModal, setIsPostModal] = useState(false);
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [currentPostId, setCurrentPostId] = useState<string | null>(null);
+  const [postId, setPostId] = useState<string | null>(null);
+  const [isRepostModalOpen, setIsRepostModalOpen] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -38,6 +42,12 @@ const page: React.FC = () => {
     dispatch(fetchUser());
     dispatch(fetchPosts());
   }, [dispatch]);
+
+  const handleModalRepost = (postId: string) => {
+    setPostId(postId);
+    setIsRepostModalOpen(true);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="h-[60px] text-xl flex items-center justify-center text-white">
@@ -124,11 +134,24 @@ const page: React.FC = () => {
                 />
                 {post.replies && <span>{post.replies.length}</span>}
               </div>
-            </div>
 
+              <div>
+                <Repostbtn
+                  repostCount={post.reposts.length}
+                  postId={post._id}
+                  setPostId={handleModalRepost}
+                />
+              </div>
+            </div>
             <div className="w-[calc(100%+2rem)] -ml-4 border-t border-gray-500 my-4"></div>
           </div>
         ))}
+
+        <Repost 
+        postId={postId || ''}
+        userProfilePic={user?.profilepic}
+        username={user?.username}
+        />
       </div>
     </div>
   );

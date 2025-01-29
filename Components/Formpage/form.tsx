@@ -9,6 +9,7 @@ import axiosInstance from "@/APIs/axiosInstance";
 import TextInputBox from "@/ReusableCode/textInputBox";
 import ButtonComponent from "@/ReusableCode/buttonComponent";
 import { setCookie } from "@/APIs/Cookie/setCookie";
+import { toast, ToastContainer } from "react-toastify";
 
 export interface UserLoginData {
   username: string;
@@ -47,6 +48,7 @@ const Formpage = () => {
       const userID = user._id;
       await setCookie(userID);
       localStorage.setItem("userId", userID);
+      toast.success("Login successfully...")
       router.push("/Main");
     }
   };
@@ -57,7 +59,7 @@ const Formpage = () => {
         <h2 className="text-l font-semibold text-center text-white mb-1">
           Login with your Instagram account
         </h2>
-
+        <ToastContainer position="bottom-center" />
         <Formik
           initialValues={Logindatas}
           validationSchema={validation}

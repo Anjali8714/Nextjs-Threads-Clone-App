@@ -1,3 +1,5 @@
+'use client'
+
 import { useAppDispatch } from "@/Hook/useAppDispatch";
 import React, { ReactNode, useState } from "react";
 import { CiCircleMore } from "react-icons/ci";

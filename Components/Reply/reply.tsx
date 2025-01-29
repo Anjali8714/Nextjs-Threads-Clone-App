@@ -1,3 +1,5 @@
+'use client'
+
 import axiosInstance from "@/APIs/axiosInstance";
 import { useAppDispatch } from "@/Hook/useAppDispatch";
 import { fetchPosts } from "@/Store/Slices/postSlice";
