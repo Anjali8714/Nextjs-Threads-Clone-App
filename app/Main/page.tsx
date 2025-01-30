@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/Store/store";
 import { useAppSelector } from "@/Hook/useAppDispatch";
 import { fetchUser } from "@/Store/Slices/userSlice";
@@ -33,8 +33,8 @@ const page: React.FC = () => {
   const [postId, setPostId] = useState<string | null>(null);
   const [isRepostModalOpen, setIsRepostModalOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
-  const [deletePostId ,setDeletePostId] = useState<string | null>(null);
-  const [isDeleteModalOpen , setDeleteModalOpen] = useState(false);
+  const [deletePostId, setDeletePostId] = useState<string | null>(null);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -54,34 +54,31 @@ const page: React.FC = () => {
     setIsRepostModalOpen(true);
   };
 
-  const toggleDropdown = (postId:string) => {
+  const toggleDropdown = (postId: string) => {
     setDropdown((p) => (p === postId ? null : postId));
   };
 
-  const openDeleteModal = (postId:string) => {
+  const openDeleteModal = (postId: string) => {
     setDeletePostId(postId);
-    setDeleteModalOpen(true)
-  }
+    setDeleteModalOpen(true);
+  };
 
-  const closeDeleteModal = ()=>{
+  const closeDeleteModal = () => {
     setDeletePostId(null);
     setDeleteModalOpen(false);
-  }
+  };
 
-  const handleDelete = async() => {
-    try{
-        await axiosInstance.delete(`/posts/${deletePostId}`);
-        toast.success("post deleted successfully");
-        dispatch(fetchPosts());
-        closeDeleteModal();
-    }catch(error){
-        console.error("Failed to deletd post",error);
-        toast.error("Failed to delete the post ")
-
-    } 
-        
-}
-
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/posts/${deletePostId}`);
+      toast.success("post deleted successfully");
+      dispatch(fetchPosts());
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Failed to deletd post", error);
+      toast.error("Failed to delete the post ");
+    }
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="h-[60px] text-xl flex items-center justify-center text-white">
@@ -135,25 +132,27 @@ const page: React.FC = () => {
                   <p className="font-bold">
                     {post.postById?.username || "Unknown User"}
                   </p>
-                  
+
                   <p className="text-gray-400 ml-2 text-xs">
                     <TimeAgo time={post.createdtime} />
                   </p>
 
                   <IoMdMore
-              className="m-2 mt-2 cursor-pointer"
-              size={23}
-              onClick={()=>toggleDropdown(post._id)}
-            />
+                    className="m-2 mt-2 cursor-pointer"
+                    size={23}
+                    onClick={() => toggleDropdown(post._id)}
+                  />
 
-            {dropdown === post._id && (
-              <div className=" bg-gray-800 text-white rounded-lg shadow-md p-3 z-50  top-2 w-28 hover:bg-gray-700 transition-all duration-200">
-                <button className="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-600 rounded-md transition-colors duration-200"
-                onClick={() => openDeleteModal(post._id)}>
-                  Delete
-                </button>
-              </div>
-            )}
+                  {dropdown === post._id && (
+                    <div className=" bg-gray-800 text-white rounded-lg shadow-md p-3 z-50  top-2 w-28 hover:bg-gray-700 transition-all duration-200">
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-600 rounded-md transition-colors duration-200"
+                        onClick={() => openDeleteModal(post._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <p className="mt-2">{post.text}</p>
               </div>
@@ -167,14 +166,13 @@ const page: React.FC = () => {
               />
             )}
 
-            
-
             <div className="mt-2 ml-5 flex space-x-4 items-center">
               <LikeButton
                 likedValue={post.likes.length}
                 postId={post._id}
                 likedUsers={post.likes}
               />
+              
 
               <div className="ml-1 flex space-x-1 items-center">
                 <FaRegComment
@@ -206,24 +204,29 @@ const page: React.FC = () => {
         />
       </div>
 
-      {
-        isDeleteModalOpen && (
-          <div className='fixed inset-0 z-50 flex justify-center items-center bg-black border-opacity-50'>
-        <div className='bg-neutral-900 rounded-lg shadow-lg w-[400px] p-5 text-white'>
-            <ToastContainer/>
-            <h2 className='text-lg font-bold mb-3'>Deletepost</h2>
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black border-opacity-50">
+          <div className="bg-neutral-900 rounded-lg shadow-lg w-[400px] p-5 text-white">
+            <ToastContainer />
+            <h2 className="text-lg font-bold mb-3">Deletepost</h2>
             <p>Are you sure you want to delete this post?</p>
-            <div className='flex justify-end space-x-3 mt-4'>
-                <button className='px-4 py-2 bg-gray-500 rounded-lg'
-                onClick={closeDeleteModal}>Cancel</button>
-                <button className='px-4 py-2 bg-red-600 rounded-lg' 
-                onClick={handleDelete}>Delete</button>
+            <div className="flex justify-end space-x-3 mt-4">
+              <button
+                className="px-4 py-2 bg-gray-500 rounded-lg"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 rounded-lg"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
             </div>
+          </div>
         </div>
-      
-    </div>
-        )
-      }
+      )}
     </div>
   );
 };
