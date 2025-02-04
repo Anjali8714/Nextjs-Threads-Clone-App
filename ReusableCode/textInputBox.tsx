@@ -22,7 +22,7 @@ const TextInputBox: React.FC<TextInputProps> = ({
         type={type}
         name={name}
         placeholder={placeholder}
-        className={`mt-2 w-full h-16 px-4 py-2 bg-black text-black border rounded-lg ${className}`}
+        className={`mt-2 w-full h-16 px-4 py-2 bg-black text-white border rounded-lg ${className}`}
       />
       <ErrorMessage
         name={name}

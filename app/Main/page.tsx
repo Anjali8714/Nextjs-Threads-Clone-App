@@ -38,6 +38,7 @@ const page: React.FC = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    // console.log(userId)
     if (userId && users.length > 0) {
       const founduser = users.find((user) => user._id === userId);
       setUser(founduser);
