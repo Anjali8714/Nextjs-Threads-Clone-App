@@ -1,41 +1,48 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "@/APIs/axiosInstance";
 
 interface followbtnProps {
   userId: string;
+  followers: string[];
 }
 
-const Followbtn: React.FC<followbtnProps> = ({ userId }) => {
+const Followbtn: React.FC<followbtnProps> = ({ userId, followers }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [currentUserId , setCurrentUserId] = useState<string | null>(null);
 
-  const senderId = localStorage.getItem("userId");
+  useEffect(() => {
+    const senderId = localStorage.getItem("userId");
 
-  const checkFollowing = async () => {
-    try {
-      const res = await axiosInstance.get(`/users/${userId}`);
-      const user = res.data.user;
-      if (user.followers.includes(senderId)) {
-        setIsFollowing(true);
+      if (senderId) {
+        setCurrentUserId(senderId)
+        setIsFollowing(followers.includes(senderId));
+      } else {
+        setIsFollowing(false);
       }
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
+    
+  }, [followers , userId]);
+
+
 
   const handleFollow = async () => {
-    checkFollowing();
+    if(!currentUserId){
+      console.log("User ID not found in localStorage");
+      return
+    }
 
     try {
       if (isFollowing) {
-        await axiosInstance.post(`/users/unfollow/${userId}`, {
-          userUnfollowId: senderId,
+
+        await axiosInstance.post(`/users/unfollow/${currentUserId}`, {
+          userUnfollowId: userId,
         });
         setIsFollowing(false);
       } else {
-        await axiosInstance.post(`/users/follow/${userId}`, {
-          userfollowId: senderId,
+
+        await axiosInstance.post(`/users/follow/${currentUserId}`, {
+          userfollowId: userId,
         });
         setIsFollowing(true);
       }

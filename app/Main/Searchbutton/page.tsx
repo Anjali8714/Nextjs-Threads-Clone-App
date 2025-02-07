@@ -20,6 +20,7 @@ const Searchbtn: React.FC = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    //  console.log(userId,"userid......")
     if (userId && users.length > 0) {
       const user = users.find((user) => user._id === userId);
       if (user) {
@@ -36,9 +37,9 @@ const Searchbtn: React.FC = () => {
     );
   }, [searchTerm, users]);
 
-  const handleSearchButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
+  // const handleSearchButton = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(e.target.value);
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center  min-h-screen text-white">
@@ -54,7 +55,9 @@ const Searchbtn: React.FC = () => {
             type="text"
             placeholder="Search"
             value={searchTerm}
-            onChange={handleSearchButton}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(e.target.value)
+            }
             className="flex-grow border-none bg-transparent outline-none text-sm p-2 placeholder-stone-500"
           />
         </div>
@@ -89,7 +92,7 @@ const Searchbtn: React.FC = () => {
                 </div>
 
                 {currentUsers && currentUsers._id !== user._id && (
-                  <Followbtn userId={user._id} />
+                  <Followbtn userId={user._id} followers={user.followers} />
                 )}
               </div>
             ))

@@ -6,7 +6,7 @@ export async function getUserId() {
   const cookieStore = await cookies();
 
   const userId = cookieStore.get("userId");
-  console.log(userId);
+  // console.log(userId);
 
   if (userId) {
     return userId.value;

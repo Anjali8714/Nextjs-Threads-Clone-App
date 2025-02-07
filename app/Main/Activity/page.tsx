@@ -1,10 +1,7 @@
-"use client";
-
 import axiosInstance from "@/APIs/axiosInstance";
 import { getUserId } from "@/APIs/Cookie/getCookie";
 import ProfileImages from "@/Components/Profile/profileImages";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React from "react";
 
 interface User {
   _id: string;
@@ -20,24 +17,40 @@ interface Notification {
   senderUSerId: User;
 }
 
-const Activity = () => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  // const [error , setError] = useState<string | null>(null);
+async function getNotifications() {
+  const userId = getUserId();
+  // console.log(userId,"userid....")
+  // console.log(axiosInstance)
+  const res = await axiosInstance.get(`/users/notification/${userId}`);
+  // console.log(res)
+  return res.data.notifications;
+}
 
-  const getNotifications = async () => {
-    try {
-      const userId = getUserId();
-      if (!userId) {
-        throw Error("User ID not found");
-      }
+async function Activity() {
+  let notifications: Notification[] = [];
+  try {
+    notifications = await getNotifications();
+    console.log(notifications);
+  } catch (error) {
+    console.error(error);
+  }
 
-      const response = await axiosInstance.get(`/users/notification/${userId}`);
-      setNotifications(response.data.notifications);
-    } catch (error) {
-      console.error("Error notifications:", error);
-      toast.success("Failed to load notifications . Please try again later.");
-    }
-  };
+  // const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  // const getNotifications = async () => {
+  //   try {
+  //     const userId = getUserId();
+  //     if (!userId) {
+  //       throw Error("User ID not found");
+  //     }
+
+  //     const response = await axiosInstance.get(`/users/notification/${userId}`);
+  //     setNotifications(response.data.notifications);
+  //   } catch (error) {
+  //     console.error("Error notifications:", error);
+  //     toast.success("Failed to load notifications . Please try again later.");
+  //   }
+  // };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 bg-black  w-full text-center py-3 m-2 z-50">
@@ -69,6 +82,6 @@ const Activity = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Activity;
