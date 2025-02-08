@@ -81,12 +81,12 @@ const page: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col h-screen">
       <div className="h-[60px] text-xl flex items-center justify-center text-white">
         For you
       </div>
 
-      <div className="relative  bg-[#181818] p-4 rounded-t-3xl  overflow-x-clip border border-[#2d2d2d] ">
+      <div className="relative flex-grow  bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] mx-auto w-[0%] lg:w-[100%]">
         <div>
           <div className="flex items-center">
             <img
