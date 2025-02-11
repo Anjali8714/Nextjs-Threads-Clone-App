@@ -91,7 +91,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ isOpen, onClose }) => {
       <div className="bg-neutral-900 p-8 rounded-lg max-w-md w-full relative">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 text-2xl border-none bg-transparent"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 text-2xl border-none bg-transparent "
         >
           x
         </button>
@@ -168,7 +168,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ isOpen, onClose }) => {
             className="bg-white text-black p-3 rounded text-base cursor-pointer hover:bg-gray-200 transition-colors mt-4"
           >
             Done
-          </button>
+          </button> 
         </form>
       </div>
     </div>

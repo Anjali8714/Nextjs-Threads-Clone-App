@@ -23,6 +23,7 @@ const Searchbtn: React.FC = () => {
     //  console.log(userId,"userid......")
     if (userId && users.length > 0) {
       const user = users.find((user) => user._id === userId);
+      // console.log(user)
       if (user) {
         setCurrentUsers(user);
       }
@@ -55,7 +56,7 @@ const Searchbtn: React.FC = () => {
             type="text"
             placeholder="Search"
             value={searchTerm}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setSearchTerm(e.target.value)
             }
             className="flex-grow border-none bg-transparent outline-none text-sm p-2 placeholder-stone-500"

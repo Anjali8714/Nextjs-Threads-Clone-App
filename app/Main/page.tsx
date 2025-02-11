@@ -86,7 +86,7 @@ const page: React.FC = () => {
         For you
       </div>
 
-      <div className="relative flex-grow  bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] mx-auto w-[0%] lg:w-[100%]">
+      <div className="relative flex-grow  bg-[#181818] p-4 rounded-t-3xl no-scrollbar overflow-y-auto border border-[#2d2d2d] mx-auto w-[100%] lg:w-[100%]">
         <div>
           <div className="flex items-center">
             <img
@@ -122,7 +122,7 @@ const page: React.FC = () => {
             <div className="flex items-center">
               <img
                 src={
-                  post.postById?.profilepic ||
+                  post.postById.profilepic ||
                   "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 }
                 alt="User Profile"
@@ -131,7 +131,7 @@ const page: React.FC = () => {
               <div>
                 <div className="flex flex-row items-center">
                   <p className="font-bold">
-                    {post.postById?.username || "Unknown User"}
+                    {post.postById.username || "Unknown User"}
                   </p>
 
                   <p className="text-gray-400 ml-2 text-xs">

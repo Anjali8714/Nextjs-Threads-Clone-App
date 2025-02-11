@@ -36,13 +36,13 @@ const Followbtn: React.FC<followbtnProps> = ({ userId, followers }) => {
       if (isFollowing) {
 
         await axiosInstance.post(`/users/unfollow/${currentUserId}`, {
-          userUnfollowId: userId,
+          userUnFollowId: userId,
         });
         setIsFollowing(false);
       } else {
 
         await axiosInstance.post(`/users/follow/${currentUserId}`, {
-          userfollowId: userId,
+          userFollowId: userId,
         });
         setIsFollowing(true);
       }

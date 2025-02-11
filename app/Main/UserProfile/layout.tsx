@@ -1,12 +1,13 @@
 import Profile from '@/Components/Profile/profile'
 import React from 'react'
 
-const layout = () => {
+const Layout = ({children}:{children:React.ReactNode}) => {
   return (
     <div>
       <Profile/>
+      {children}
     </div>
   )
 }
 
-export default layout
+export default Layout

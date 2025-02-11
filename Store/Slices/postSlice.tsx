@@ -1,5 +1,4 @@
 import axiosInstance from "@/APIs/axiosInstance";
-import { getUserId } from "@/APIs/Cookie/getCookie";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
